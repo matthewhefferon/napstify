@@ -1,0 +1,362 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Win98/2000 palette */
+    --face: #d4d0c8;
+    --light: #ffffff;
+    --shadow: #808080;
+    --dark: #000000;
+    --gray: #dcdcdc;
+    --win-title-blue-1: #000080;
+    --win-title-blue-2: #3a6ea5;
+    --win-3d-face: #d4d0c8;
+    --win-3d-light: #ffffff;
+    --win-3d-shadow: #808080;
+    --win-3d-dark: #000000;
+    --win-gray: #dcdcdc;
+    --win-text: #000000;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #c0c0c0;
+  }
+  
+  body {
+    font-family: Tahoma, "MS Sans Serif", sans-serif;
+    font-size: 12px;
+    color: var(--win-text);
+    /* crisper, less AA look */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-kerning: none;
+    text-rendering: optimizeSpeed;
+  }
+}
+
+@layer components {
+  .win98-border {
+    border: 1px solid #000000;
+  }
+  
+  .btn-98 {
+    width: 180px;
+    height: 24px;
+    background: var(--face);
+    border: 1px solid var(--light);
+    box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
+    color: #000;
+    font-size: 12px;
+    font-family: Tahoma, "MS Sans Serif", sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-98:active {
+    transform: translate(1px, 1px);
+    box-shadow: inset 1px 1px 0 var(--dark), inset -1px -1px 0 var(--shadow);
+  }
+
+  .btn-98:disabled {
+    color: #808080;
+    text-shadow: 1px 1px 0 #fff;
+    filter: grayscale(100%);
+    cursor: not-allowed;
+  }
+  
+  .win98-button:active {
+    box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.3);
+    transform: translate(1px, 1px);
+  }
+  
+  .win98-button:disabled {
+    color: #808080;
+  }
+  
+  .input-98 {
+    background: #fff;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-family: Tahoma, "MS Sans Serif", sans-serif;
+    border: 1px solid var(--shadow);
+    box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+  }
+
+  .label-98 {
+    font-size: 12px;
+    padding-top: 2px;
+    font-family: Tahoma, "MS Sans Serif", sans-serif;
+  }
+  
+  .win98-titlebar {
+    height: 19px;
+    background: linear-gradient(90deg, #000080 0%, #1e4e8c 45%, #3a6ea5 100%);
+    color: #fff;
+    padding: 0 6px;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--dark);
+  }
+  
+  .win98-window {
+    width: 980px;
+    height: 560px;
+    background: var(--face);
+    box-shadow: 2px 2px 0 var(--dark);
+    border: 1px solid var(--dark);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-pad {
+    padding: 6px;
+  }
+  
+  .win98-menubar {
+    height: 18px;
+    background: var(--face);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 6px;
+    border-bottom: 1px solid var(--dark);
+    font-size: 12px;
+  }
+  
+  .win98-table-header {
+    @apply p-1 text-xs font-win98;
+    background-color: #D4D2C9;
+    border: 1px solid #000000;
+  }
+  
+  .win98-table-cell {
+    @apply p-1 text-xs font-win98;
+    border: 1px solid #000000;
+  }
+  
+  .win98-status-bar {
+    @apply p-1 text-xs font-win98;
+    background-color: #D4D2C9;
+    border: 1px solid #000000;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ===== Win98 additions for pixel-perfect toolbar & controls ===== */
+
+/* Titlebar control glyphs (min, max, close) */
+.win98-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.win98-control {
+  width: 16px;
+  height: 16px;
+  background: var(--win-3d-face);
+  border: 1px solid var(--win-3d-light);
+  box-shadow: inset -1px -1px 0 var(--win-3d-dark),
+              inset 1px 1px 0 var(--win-3d-shadow);
+  position: relative;
+}
+
+.win98-control.min::before,
+.win98-control.max::before,
+.win98-control.close::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: 3px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.win98-control.min::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect x="1" y="8" width="8" height="1" fill="black"/></svg>');
+}
+
+.win98-control.max::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect x="1" y="1" width="8" height="6" fill="none" stroke="black" stroke-width="1"/><rect x="1" y="1" width="8" height="1" fill="black"/></svg>');
+}
+
+.win98-control.close::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><path d="M1 1 L9 9 M9 1 L1 9" stroke="black" stroke-width="2"/></svg>');
+}
+
+/* Toolbar: exact pixel boxes with icon + label */
+.toolbar-98 {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--dark);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 16px;
+  background-color: var(--face);
+  flex-shrink: 0;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.toolbar-btn {
+  width: 78px;
+  height: 24px;
+  background: var(--face);
+  border: 1px solid var(--light);
+  box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 12px;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  color: #000;
+}
+
+.toolbar-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: inset 1px 1px 0 var(--dark), inset -1px -1px 0 var(--shadow);
+}
+
+.toolbar-btn.active {
+  background: #c0c0c0;
+  box-shadow: inset 1px 1px 0 var(--dark), inset -1px -1px 0 var(--shadow);
+  transform: translate(1px, 1px);
+}
+.icon-16 {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+/* Scrollbar styling */
+.results-box::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.results-box::-webkit-scrollbar-track {
+  background: var(--face);
+  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+}
+
+.results-box::-webkit-scrollbar-thumb {
+  background: var(--gray);
+  border: 1px solid var(--shadow);
+  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+}
+
+/* Results table styling */
+.results-box {
+  height: 402px;
+  background: #fff;
+  border: 1px solid var(--dark);
+  overflow: auto;
+}
+
+.table-98 {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table-98 thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--gray);
+  height: 19px;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: left;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--dark);
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+}
+
+.table-98 tbody td {
+  height: 18px;
+  line-height: 18px;
+  font-size: 12px;
+  padding: 0 6px;
+  border-bottom: 1px solid #b5b5b5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+}
+
+.row-98:hover {
+  background: #efefef;
+}
+
+.row-98.playing {
+  background: #fff8dc;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.dot.green {
+  background: #19c819;
+}
+
+.dot.yellow {
+  background: #ffd400;
+}
+
+.dot.red {
+  background: #d11;
+}
+
+/* Status bar styling */
+.statusbar-98 {
+  height: 28px;
+  background: var(--face);
+  border-top: 1px solid var(--dark);
+  display: grid;
+  grid-template-columns: 220px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.status-groove {
+  height: 16px;
+  background: var(--face);
+  border: 1px solid var(--shadow);
+  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+}
+
+.bottom-btn {
+  width: 180px;
+  height: 24px;
+  background: var(--face);
+  border: 1px solid var(--light);
+  box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
+  font-size: 12px;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+}
