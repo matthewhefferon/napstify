@@ -1,8 +1,16 @@
+/**
+ * Represents a track from Spotify API
+ */
 export type Track = {
+  /** Spotify track ID */
   id: string;
+  /** Track name */
   name: string;
+  /** Array of artists for this track */
   artists: { name: string }[];
+  /** 30-second preview URL (null if not available) */
   preview_url: string | null;
+  /** Track duration in milliseconds */
   duration_ms: number;
 };
 
@@ -25,6 +33,11 @@ type SpotifySearchResponse = {
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
 
+/**
+ * Gets a Spotify access token using client credentials flow
+ * @returns Promise<string> The access token
+ * @throws Error if credentials are missing or token request fails
+ */
 async function getClientCredentialsToken(): Promise<string> {
   if (cachedToken && Date.now() < cachedToken.expiresAt) {
     return cachedToken.token;
@@ -69,6 +82,13 @@ async function getClientCredentialsToken(): Promise<string> {
   return data.access_token;
 }
 
+/**
+ * Searches for tracks on Spotify using artist and/or title
+ * @param artist - Artist name to search for
+ * @param title - Track title to search for
+ * @returns Promise<Track[]> Array of matching tracks
+ * @throws Error if the search request fails
+ */
 export async function searchTracks(artist?: string, title?: string): Promise<Track[]> {
   const token = await getClientCredentialsToken();
   

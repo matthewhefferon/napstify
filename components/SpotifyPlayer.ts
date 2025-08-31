@@ -18,7 +18,7 @@ class SpotifyPlayer {
     // Initialize player
     this.player = new window.Spotify.Player({
       name: 'Napstify Web Player',
-      getOAuthToken: cb => { 
+      getOAuthToken: (cb: (token: string) => void) => { 
         console.log('Getting OAuth token...');
         cb(accessToken); 
       }
