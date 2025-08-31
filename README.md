@@ -1,6 +1,6 @@
 # Napstify v2.0 BETA 6
 
-A Windows 98-style Spotify search interface that recreates the classic Napster v2.0 aesthetic with modern functionality.
+A nostalgic Napster-style interface that lets you search for artists and play songs via the Spotify API.
 
 
 
@@ -10,7 +10,7 @@ This project recreates the nostalgic interface of the original Napster v2.0 clie
 
 ![Original Napster v2.0 Interface](./public/Napster.png)
 
-*The original Napster v2.0 interface that inspired this project*
+*Screenshot made with [getpixxel.com](https://www.getpixxel.com/)*
 
 ## ✨ Features
 
@@ -86,63 +86,11 @@ This project recreates the nostalgic interface of the original Napster v2.0 clie
    ```
    Update `NEXTAUTH_URL` and Spotify redirect URI with the ngrok URL.
 
-## 🌐 Deployment
 
-### Deploy to Vercel (Recommended)
 
-1. **Fork this repository** to your GitHub account
 
-2. **Set up Spotify App** (required):
-   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-   - Create a new app
-   - Add your production domain to Redirect URIs (e.g., `https://your-app.vercel.app/api/auth/callback/spotify`)
-   - Copy Client ID and Client Secret
 
-3. **Deploy to Vercel**:
-   - Go to [Vercel](https://vercel.com) and sign up/login
-   - Click "New Project" and import your forked repository
-   - Add environment variables in Vercel dashboard:
-     ```env
-     SPOTIFY_CLIENT_ID=your_spotify_client_id
-     SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
-     NEXTAUTH_URL=https://your-app.vercel.app
-     NEXTAUTH_SECRET=your_generated_secret
-     ```
-   - Deploy!
 
-4. **Generate NEXTAUTH_SECRET**:
-   ```bash
-   openssl rand -base64 32
-   ```
-
-### Deploy to Other Platforms
-
-The app works on any platform that supports Next.js:
-- **Netlify**: Similar to Vercel setup
-- **Railway**: Add environment variables in dashboard
-- **DigitalOcean App Platform**: Configure environment variables
-- **Self-hosted**: Set up environment variables on your server
-
-### Important Notes
-
-⚠️ **Spotify Development Mode Limitation**: Each Spotify app is limited to 25 users in development mode. This project is designed to be self-hosted so everyone can have their own instance.
-
-⚠️ **Spotify Premium required** - Full playback requires a Spotify Premium account
-⚠️ **Active Spotify session needed** - Users must have Spotify open on another device
-
-## 🔒 Security Features
-
-- **Server-side API calls**: All Spotify API requests go through Next.js API routes
-- **Environment variables**: Sensitive credentials stored in `.env.local` (not committed)
-- **Input validation**: Search parameters are validated and sanitized
-- **Error handling**: Graceful error handling without exposing sensitive information
-- **CORS protection**: Built-in Next.js CORS handling
-- **Authentication**: Secure OAuth flow with NextAuth.js
-
-## 📖 Usage
-
-1. **Search for Music**: Enter an artist name and optionally a title
-2. **Full Playback**: Click any track to sign in with Spotify for full track playback
 
 ## 🏗️ Project Structure
 
@@ -202,70 +150,12 @@ All Win98-styled components use Tailwind utilities:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes
-4. Test thoroughly
-5. Commit: `git commit -m 'Add amazing feature'`
-6. Push: `git push origin feature/amazing-feature`
-7. Open a Pull Request
-
-### Code Style
-
-- Use TypeScript for all new code
-- Follow the existing Tailwind CSS patterns
-- Maintain Win98 aesthetic consistency
-- Add proper error handling
-- Include TypeScript types for new components
-- Add JSDoc comments for complex functions
-
-### Security Guidelines
-
-- Never commit sensitive credentials
-- Validate all user inputs
-- Use environment variables for configuration
-- Implement proper error handling
-- Follow OWASP security guidelines
+Want to help? Check out [CONTRIBUTING.md](CONTRIBUTING.md) for details. It's pretty simple - just fork, make changes, and submit a PR!
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Inspired by the classic Napster v2.0 interface
-- Built with modern web technologies
-- Spotify API for music data and playback
-- NextAuth.js for authentication
-- Tailwind CSS for styling
-
-## 🆘 Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/napstify/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/napstify/discussions)
-- **Email**: your-email@example.com
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-1. **"Invalid redirect URI" error**
-   - Make sure your Spotify app redirect URI matches exactly
-   - For local development, use ngrok URL
-
-2. **"Missing Spotify credentials" error**
-   - Check that `.env.local` exists and has correct values
-   - Verify Spotify app credentials are correct
-
-3. **Full playback not working**
-   - Ensure you're signed in with Spotify
-   - Check that you have Spotify Premium (required for Web Playback SDK)
-   - Make sure Spotify is open on another device (desktop app, mobile app, or web player)
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-Made with ❤️ for all the people who installed viruses on their parents computers
+Made with ❤️ for all the people who installed viruses on their parents computers.
