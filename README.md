@@ -8,7 +8,7 @@ A nostalgic Napster-style interface that lets you search for artists and play so
 
 This project recreates the nostalgic interface of the original Napster v2.0 client, bringing back the classic Windows 98 aesthetic while providing modern Spotify integration.
 
-![Original Napster v2.0 Interface](./public/Napster.png)
+![Original Napster v2.0 Interface](./public/napstify.png)
 
 *Screenshot made with [getpixxel.com](https://www.getpixxel.com/)*
 
@@ -59,6 +59,7 @@ This project recreates the nostalgic interface of the original Napster v2.0 clie
    ```env
    SPOTIFY_CLIENT_ID=your_spotify_client_id
    SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+   
    NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your_nextauth_secret
    ```
@@ -85,11 +86,6 @@ This project recreates the nostalgic interface of the original Napster v2.0 clie
    npx ngrok http 3000
    ```
    Update `NEXTAUTH_URL` and Spotify redirect URI with the ngrok URL.
-
-
-
-
-
 
 
 ## 🏗️ Project Structure
