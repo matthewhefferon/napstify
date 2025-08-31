@@ -2,27 +2,34 @@
 
 A Windows 98-style Spotify search interface that recreates the classic Napster v2.0 aesthetic with modern functionality.
 
-![Napstify Screenshot](https://via.placeholder.com/800x600/cccccc/000000?text=Napstify+v2.0+BETA+6)
 
-## Features
 
-- **Authentic Win98 UI**: Pixel-perfect recreation of Windows 98/Napster v2.0 interface
+## 🎵 Inspiration
+
+This project recreates the nostalgic interface of the original Napster v2.0 client, bringing back the classic Windows 98 aesthetic while providing modern Spotify integration.
+
+![Original Napster v2.0 Interface](./public/Napster.png)
+
+*The original Napster v2.0 interface that inspired this project*
+
+## ✨ Features
+
+- **Authentic Win98 UI**: A recreation of Windows 98/Napster v2.0 interface
 - **Spotify Integration**: Search and play tracks using Spotify's API
-- **Preview Playback**: 30-second preview URLs for instant listening
 - **Full Track Playback**: Spotify Web Playback SDK integration for full tracks
 - **Responsive Design**: Works on desktop and mobile devices
-- **Auto-play**: Seamless track-to-track playback
+- **Classic Napster Feel**: Complete with fake user data, connection types, and file sizes
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14+ (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS with custom Win98 utilities
-- **Authentication**: NextAuth.js with Spotify OAuth
-- **Audio**: HTML5 Audio API + Spotify Web Playback SDK
+- **Framework**: Next.js 15.5.2 (App Router)
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS 3.3.0 with custom Win98 utilities
+- **Authentication**: NextAuth.js 4.24.11 with Spotify OAuth
+- **Audio**: Spotify Web Playback SDK
 - **Deployment**: Vercel-ready
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -45,7 +52,7 @@ A Windows 98-style Spotify search interface that recreates the classic Napster v
 
 3. **Set up environment variables**
    ```bash
-   cp .env.local.example .env.local
+   cp env.example .env.local
    ```
    
    Fill in your Spotify credentials:
@@ -62,33 +69,93 @@ A Windows 98-style Spotify search interface that recreates the classic Napster v
    - Add `http://localhost:3000/api/auth/callback/spotify` to Redirect URIs
    - Copy Client ID and Client Secret to `.env.local`
 
-5. **Start development server**
+5. **Generate NextAuth Secret**
+   ```bash
+   openssl rand -base64 32
+   ```
+   Copy the output to `NEXTAUTH_SECRET` in your `.env.local`
+
+6. **Start development server**
    ```bash
    npm run dev
    ```
 
-6. **For HTTPS (required for Spotify OAuth)**
+7. **For HTTPS (required for Spotify OAuth)**
    ```bash
    npx ngrok http 3000
    ```
    Update `NEXTAUTH_URL` and Spotify redirect URI with the ngrok URL.
 
-## Usage
+## 🌐 Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. **Fork this repository** to your GitHub account
+
+2. **Set up Spotify App** (required):
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create a new app
+   - Add your production domain to Redirect URIs (e.g., `https://your-app.vercel.app/api/auth/callback/spotify`)
+   - Copy Client ID and Client Secret
+
+3. **Deploy to Vercel**:
+   - Go to [Vercel](https://vercel.com) and sign up/login
+   - Click "New Project" and import your forked repository
+   - Add environment variables in Vercel dashboard:
+     ```env
+     SPOTIFY_CLIENT_ID=your_spotify_client_id
+     SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+     NEXTAUTH_URL=https://your-app.vercel.app
+     NEXTAUTH_SECRET=your_generated_secret
+     ```
+   - Deploy!
+
+4. **Generate NEXTAUTH_SECRET**:
+   ```bash
+   openssl rand -base64 32
+   ```
+
+### Deploy to Other Platforms
+
+The app works on any platform that supports Next.js:
+- **Netlify**: Similar to Vercel setup
+- **Railway**: Add environment variables in dashboard
+- **DigitalOcean App Platform**: Configure environment variables
+- **Self-hosted**: Set up environment variables on your server
+
+### Important Notes
+
+⚠️ **Spotify Development Mode Limitation**: Each Spotify app is limited to 25 users in development mode. This project is designed to be self-hosted so everyone can have their own instance.
+
+⚠️ **Spotify Premium required** - Full playback requires a Spotify Premium account
+⚠️ **Active Spotify session needed** - Users must have Spotify open on another device
+
+## 🔒 Security Features
+
+- **Server-side API calls**: All Spotify API requests go through Next.js API routes
+- **Environment variables**: Sensitive credentials stored in `.env.local` (not committed)
+- **Input validation**: Search parameters are validated and sanitized
+- **Error handling**: Graceful error handling without exposing sensitive information
+- **CORS protection**: Built-in Next.js CORS handling
+- **Authentication**: Secure OAuth flow with NextAuth.js
+
+## 📖 Usage
 
 1. **Search for Music**: Enter an artist name and optionally a title
-2. **Preview Tracks**: Click any track with a preview URL for instant 30-second playback
-3. **Full Playback**: Click tracks without previews to sign in with Spotify for full track playback
-4. **Auto-play**: When a preview ends, the next track automatically starts
+2. **Full Playback**: Click any track to sign in with Spotify for full track playback
 
-## Project Structure
+## 🏗️ Project Structure
 
 ```
 napstify/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
+│   │   ├── auth/          # NextAuth.js authentication
+│   │   └── search/        # Spotify search API proxy
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Main page
+│   ├── page.tsx           # Main page
+│   └── providers.tsx      # NextAuth provider wrapper
 ├── components/            # React components
 │   ├── AudioController.ts # Audio playback logic
 │   ├── Icons98.tsx        # Win98-style icons
@@ -100,10 +167,13 @@ napstify/
 ├── lib/                   # Utility libraries
 │   └── spotify.ts         # Spotify API integration
 ├── types/                 # TypeScript type definitions
-└── tailwind.config.ts     # Tailwind configuration
+│   └── next-auth.d.ts     # NextAuth type extensions
+├── tailwind.config.ts     # Tailwind configuration
+├── env.example            # Environment variables template
+└── README.md              # This file
 ```
 
-## Customization
+## 🎨 Customization
 
 ### Win98 Theme Colors
 
@@ -112,7 +182,7 @@ The Win98 color palette is defined in `tailwind.config.ts`:
 ```js
 colors: {
   'win98': {
-    face: '#d4d0c8',      // Main background
+    face: '#d5d2c9',      // Main background
     light: '#ffffff',     // Highlight color
     shadow: '#808080',    // Shadow color
     dark: '#000000',      // Border color
@@ -130,7 +200,7 @@ All Win98-styled components use Tailwind utilities:
 - `.win98-titlebar` - Blue gradient title bar
 - `.win98-table-header` - Table headers
 
-## Contributing
+## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
@@ -151,24 +221,51 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - Maintain Win98 aesthetic consistency
 - Add proper error handling
 - Include TypeScript types for new components
+- Add JSDoc comments for complex functions
 
-## License
+### Security Guidelines
+
+- Never commit sensitive credentials
+- Validate all user inputs
+- Use environment variables for configuration
+- Implement proper error handling
+- Follow OWASP security guidelines
+
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - Inspired by the classic Napster v2.0 interface
 - Built with modern web technologies
 - Spotify API for music data and playback
 - NextAuth.js for authentication
+- Tailwind CSS for styling
 
-## Support
+## 🆘 Support
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/napstify/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/napstify/discussions)
 - **Email**: your-email@example.com
 
+## 🔧 Troubleshooting
+
+### Common Issues
+
+1. **"Invalid redirect URI" error**
+   - Make sure your Spotify app redirect URI matches exactly
+   - For local development, use ngrok URL
+
+2. **"Missing Spotify credentials" error**
+   - Check that `.env.local` exists and has correct values
+   - Verify Spotify app credentials are correct
+
+3. **Full playback not working**
+   - Ensure you're signed in with Spotify
+   - Check that you have Spotify Premium (required for Web Playback SDK)
+   - Make sure Spotify is open on another device (desktop app, mobile app, or web player)
+
 ---
 
-Made with ❤️ for the Win98 aesthetic
+Made with ❤️ for all the people who installed viruses on their parents computers
