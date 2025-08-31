@@ -261,7 +261,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="flex gap-1 ml-20 flex-1 flex-wrap">
+          <div className="flex gap-1 ml-20 flex-1" style={{ marginLeft: 'calc(5rem + 0.5rem)' }}>
             <button
               onClick={handleSearch}
               disabled={isLoading || !artist.trim()}
