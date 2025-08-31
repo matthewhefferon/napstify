@@ -25,6 +25,7 @@ export default function Home() {
 
   const [playerReady, setPlayerReady] = useState(false);
   const [sessionTimeout, setSessionTimeout] = useState(false);
+  const [hasLoadedDefault, setHasLoadedDefault] = useState(false);
   
   // Add timeout for session loading
   useEffect(() => {
@@ -50,6 +51,37 @@ export default function Home() {
       setPlayerReady(false);
     };
   }, [session?.accessToken]);
+
+  // Load default popular songs on first load
+  useEffect(() => {
+    if (!hasLoadedDefault && !isLoading) {
+      setHasLoadedDefault(true);
+      loadDefaultSongs();
+    }
+  }, [hasLoadedDefault, isLoading]);
+
+  const loadDefaultSongs = async () => {
+    setIsLoading(true);
+    setTracks([]);
+    setNowPlayingId(null);
+    setFieldsCleared(false);
+    audioController.stop();
+
+    try {
+      // Default to Metallica like the original screenshot
+      const response = await fetch('/api/search?artist=metallica');
+      const data = await response.json();
+      
+      if (response.ok && data.tracks) {
+        setTracks(data.tracks);
+        setArtist('Metallica');
+      }
+    } catch (err) {
+      console.error('Failed to load default songs:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   // If still loading session, show loading with timeout
   if (status === 'loading' && !sessionTimeout) {
@@ -313,7 +345,7 @@ export default function Home() {
           signIn('spotify', { callbackUrl: window.location.href });
         }}
         title="Napstify"
-        message="Sign in with Spotify to play full tracks and control playback on your devices?"
+        message="Sign in with Spotify to play full tracks and control playback on your devices."
         confirmText="Sign In"
         cancelText="Cancel"
       />

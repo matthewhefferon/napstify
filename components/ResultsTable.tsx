@@ -62,14 +62,14 @@ export default function ResultsTable({ tracks, nowPlayingId, onPlay, onPause, em
     <div className="win98-scrollbar bg-white border border-black relative overflow-y-auto overflow-x-auto h-full max-h-[calc(100vh-300px)]">
       <table className="w-full border-collapse table-fixed max-w-full overflow-hidden">
         <colgroup>
-          <col style={{ minWidth: '280px', width: '35%' }} />
+          <col style={{ minWidth: '320px', width: '40%' }} />
           <col style={{ minWidth: '70px', width: '10%' }} />
           <col style={{ minWidth: '50px', width: '8%' }} />
           <col style={{ minWidth: '50px', width: '8%' }} />
           <col style={{ minWidth: '50px', width: '8%' }} />
-          <col style={{ minWidth: '100px', width: '12%' }} />
           <col style={{ minWidth: '80px', width: '10%' }} />
-          <col style={{ minWidth: '50px', width: '9%' }} />
+          <col style={{ minWidth: '70px', width: '8%' }} />
+          <col style={{ minWidth: '50px', width: '8%' }} />
         </colgroup>
         <thead>
           <tr>

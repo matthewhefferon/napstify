@@ -42,14 +42,14 @@ export default function Win98Modal({
             {/* Icon */}
             <div className="win98-modal-icon">
               <svg width="32" height="32" viewBox="0 0 32 32">
-                <circle cx="16" cy="16" r="14" fill="#ffd400" stroke="#000" strokeWidth="1"/>
-                <path d="M12 10 L20 16 L12 22 Z" fill="#000"/>
+                <circle cx="16" cy="16" r="15" fill="#1DB954" stroke="#000" strokeWidth="1"/>
+                <path d="M8 8 L24 16 L8 24 Z" fill="#000"/>
               </svg>
             </div>
             
             {/* Message */}
             <div className="flex-1">
-              <p className="text-sm leading-relaxed">{message}</p>
+              <p className="text-sm leading-relaxed text-black font-medium">{message}</p>
             </div>
           </div>
           
