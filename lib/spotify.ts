@@ -34,9 +34,15 @@ async function getClientCredentialsToken(): Promise<string> {
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
+    console.error('Missing Spotify credentials:', { 
+      hasClientId: !!clientId, 
+      hasClientSecret: !!clientSecret 
+    });
     throw new Error('Spotify credentials not configured');
   }
 
+  console.log('Getting Spotify token...');
+  
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -47,7 +53,9 @@ async function getClientCredentialsToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to get Spotify token');
+    const errorText = await response.text();
+    console.error('Spotify token error:', response.status, errorText);
+    throw new Error(`Failed to get Spotify token: ${response.status} ${errorText}`);
   }
 
   const data: SpotifyTokenResponse = await response.json();
@@ -57,14 +65,28 @@ async function getClientCredentialsToken(): Promise<string> {
     expiresAt: Date.now() + (data.expires_in * 1000) - 60000, // Expire 1 minute early
   };
 
+  console.log('Got Spotify token successfully');
   return data.access_token;
 }
 
-export async function searchTracks(artist: string): Promise<Track[]> {
+export async function searchTracks(artist?: string, title?: string): Promise<Track[]> {
   const token = await getClientCredentialsToken();
   
+  // Build search query
+  let query = '';
+  if (artist && title) {
+    query = `artist:${encodeURIComponent(artist)} track:${encodeURIComponent(title)}`;
+    console.log('Searching Spotify for artist and title:', artist, title);
+  } else if (artist) {
+    query = `artist:${encodeURIComponent(artist)}`;
+    console.log('Searching Spotify for artist:', artist);
+  } else if (title) {
+    query = `track:${encodeURIComponent(title)}`;
+    console.log('Searching Spotify for title:', title);
+  }
+  
   const response = await fetch(
-    `https://api.spotify.com/v1/search?q=artist:${encodeURIComponent(artist)}&type=track&limit=100`,
+    `https://api.spotify.com/v1/search?q=${query}&type=track&limit=50`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -73,16 +95,26 @@ export async function searchTracks(artist: string): Promise<Track[]> {
   );
 
   if (!response.ok) {
-    throw new Error('Failed to search Spotify');
+    const errorText = await response.text();
+    console.error('Spotify search error:', response.status, errorText);
+    throw new Error(`Failed to search Spotify: ${response.status} ${errorText}`);
   }
 
   const data: SpotifySearchResponse = await response.json();
   
-  return data.tracks.items.map(item => ({
+  console.log(`Found ${data.tracks.items.length} tracks for query: ${query}`);
+  
+  const tracks = data.tracks.items.map(item => ({
     id: item.id,
     name: item.name,
     artists: item.artists,
     preview_url: item.preview_url,
     duration_ms: item.duration_ms,
   }));
+  
+  // Log preview URL availability
+  const tracksWithPreviews = tracks.filter(t => t.preview_url);
+  console.log(`${tracksWithPreviews.length} out of ${tracks.length} tracks have preview URLs`);
+  
+  return tracks;
 }

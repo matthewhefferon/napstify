@@ -4,7 +4,6 @@
 
 @layer base {
   :root {
-    /* Win98/2000 palette */
     --face: #d4d0c8;
     --light: #ffffff;
     --shadow: #808080;
@@ -38,6 +37,22 @@
     font-kerning: none;
     text-rendering: optimizeSpeed;
   }
+  
+  /* Remove all underlines globally */
+  * {
+    text-decoration: none !important;
+  }
+  
+  /* Aggressive underline removal for menu items */
+  .win98-menubar span,
+  .win98-menubar span::before,
+  .win98-menubar span::after {
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: none !important;
+    text-decoration-color: none !important;
+    text-decoration-thickness: none !important;
+  }
 }
 
 @layer components {
@@ -46,30 +61,13 @@
   }
   
   .btn-98 {
-    width: 180px;
-    height: 24px;
-    background: var(--face);
-    border: 1px solid var(--light);
-    box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
-    color: #000;
-    font-size: 12px;
-    font-family: Tahoma, "MS Sans Serif", sans-serif;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-98:active {
-    transform: translate(1px, 1px);
-    box-shadow: inset 1px 1px 0 var(--dark), inset -1px -1px 0 var(--shadow);
-  }
-
-  .btn-98:disabled {
-    color: #808080;
-    text-shadow: 1px 1px 0 #fff;
-    filter: grayscale(100%);
-    cursor: not-allowed;
-  }
+  @apply win98-btn;
+  width: 180px;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  color: #000;
+  outline: none;
+  box-sizing: border-box;
+}
   
   .win98-button:active {
     box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.3);
@@ -80,15 +78,35 @@
     color: #808080;
   }
   
-  .input-98 {
-    background: #fff;
-    height: 22px;
-    padding: 0 6px;
-    font-size: 12px;
-    font-family: Tahoma, "MS Sans Serif", sans-serif;
-    border: 1px solid var(--shadow);
-    box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
-  }
+  /* ===== Win98 Sunken Input ===== */
+.win98-input {
+  background: #ffffff;                  /* white fill */
+  height: 22px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 20px;
+  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  border: 1px solid var(--shadow);      /* base border */
+  box-shadow:
+    inset 1px 1px 0 var(--light),       /* highlight top/left */
+    inset -1px -1px 0 var(--dark);      /* shadow bottom/right */
+}
+
+/* Focus: no outline */
+.win98-input:focus {
+  outline: none;
+}
+
+/* Disabled look: embossed/greyed */
+.win98-input:disabled {
+  background: #eee;
+  color: #808080;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.input-98 {
+  @apply win98-input;
+}
 
   .label-98 {
     font-size: 12px;
@@ -106,7 +124,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--dark);
   }
   
   .win98-window {
@@ -130,8 +147,21 @@
     align-items: center;
     gap: 14px;
     padding: 0 6px;
-    border-bottom: 1px solid var(--dark);
     font-size: 12px;
+  }
+
+  .win98-menubar span {
+    text-decoration: none !important;
+  }
+  
+  .win98-menubar * {
+    text-decoration: none !important;
+  }
+  
+  .win98-menubar span:hover,
+  .win98-menubar span:focus,
+  .win98-menubar span:active {
+    text-decoration: none !important;
   }
   
   .win98-table-header {
@@ -199,7 +229,6 @@
 /* Toolbar: exact pixel boxes with icon + label */
 .toolbar-98 {
   padding: 6px 8px;
-  border-bottom: 1px solid var(--dark);
   display: flex;
   gap: 6px;
   align-items: center;
@@ -213,24 +242,10 @@
 }
 
 .toolbar-btn {
+  @apply win98-btn;
   width: 78px;
-  height: 24px;
-  background: var(--face);
-  border: 1px solid var(--light);
-  box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 6px;
-  font-size: 12px;
-  line-height: 12px;
   font-family: Tahoma, "MS Sans Serif", sans-serif;
   color: #000;
-}
-
-.toolbar-btn:active {
-  transform: translate(1px, 1px);
-  box-shadow: inset 1px 1px 0 var(--dark), inset -1px -1px 0 var(--shadow);
 }
 
 .toolbar-btn.active {
@@ -244,21 +259,120 @@
   image-rendering: pixelated;
 }
 
-/* Scrollbar styling */
+/* ----- Win98 Scrollbars (WebKit) ----- */
 .results-box::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
+  width: 20px !important;
+  background: red !important;
 }
 
 .results-box::-webkit-scrollbar-track {
-  background: var(--face);
-  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+  background: red !important;
 }
 
 .results-box::-webkit-scrollbar-thumb {
-  background: var(--gray);
-  border: 1px solid var(--shadow);
-  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+  background: blue !important;
+  min-height: 50px;
+}
+
+.results-box::-webkit-scrollbar-button {
+  background: green !important;
+  height: 20px !important;
+}
+
+/* Corner where bars meet */
+.results-box::-webkit-scrollbar-corner {
+  background: var(--face);
+  border-left: 1px solid var(--shadow);
+  border-top: 1px solid var(--shadow);
+  box-shadow:
+    inset 1px 1px 0 var(--light),
+    inset -1px -1px 0 var(--dark);
+}
+
+/* Arrow buttons (flat like track) */
+.results-box::-webkit-scrollbar-button {
+  width: 16px;
+  height: 16px;
+  background: #d4d0c8 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 9px 9px;                 /* triangle size */
+}
+
+/* Use FILLED triangles (looks closer than strokes) */
+.results-box::-webkit-scrollbar-button:vertical:decrement {
+  background-image: url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">\
+      <polygon points="4,11 8,6 12,11" fill="black"/></svg>');
+}
+.results-box::-webkit-scrollbar-button:vertical:increment {
+  background-image: url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">\
+      <polygon points="4,6 8,11 12,6" fill="black"/></svg>');
+}
+.results-box::-webkit-scrollbar-button:horizontal:decrement {
+  background-image: url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">\
+      <polygon points="11,4 6,8 11,12" fill="black"/></svg>');
+}
+.results-box::-webkit-scrollbar-button:horizontal:increment {
+  background-image: url('data:image/svg+xml;utf8,\
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">\
+      <polygon points="6,4 11,8 6,12" fill="black"/></svg>');
+}
+
+/* Pressed state for arrows (subtle) */
+.results-box::-webkit-scrollbar-button:active {
+  background: #cfcfcf;
+}
+
+/* Hover: subtle darken for thumb */
+.results-box::-webkit-scrollbar-thumb:hover {
+  background: #cfcfcf;
+}
+
+/* Firefox fallback */
+.results-box {
+  scrollbar-width: auto;                    /* thick-ish */
+  scrollbar-color: var(--gray) var(--face); /* thumb / track */
+}
+
+/* Win98 Modal styling */
+.win98-modal {
+  background: var(--face);
+  border: 1px solid var(--dark);
+  box-shadow: 2px 2px 0 var(--dark);
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.win98-modal-titlebar {
+  background: linear-gradient(90deg, #000080 0%, #1e4e8c 45%, #3a6ea5 100%);
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--dark);
+}
+
+.win98-modal-content {
+  padding: 16px;
+}
+
+.win98-modal-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.win98-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 /* Results table styling */
@@ -266,27 +380,47 @@
   height: 402px;
   background: #fff;
   border: 1px solid var(--dark);
-  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.results-box-scrollable {
+  overflow-y: auto;
 }
 
 .table-98 {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .table-98 thead th {
   position: sticky;
   top: 0;
-  z-index: 1;
-  background: var(--gray);
+  z-index: 10;
+  background: var(--face);
   height: 19px;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 12px;
   text-align: left;
   padding: 0 6px;
   border-bottom: 1px solid var(--dark);
+  border-right: 1px solid var(--dark);
   font-family: Tahoma, "MS Sans Serif", sans-serif;
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
+  border-color: var(--dark) !important;
+  border-style: solid !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-98 thead th:last-child {
+  border-right: none;
 }
 
 .table-98 tbody td {
@@ -294,11 +428,15 @@
   line-height: 18px;
   font-size: 12px;
   padding: 0 6px;
-  border-bottom: 1px solid #b5b5b5;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-family: Tahoma, "MS Sans Serif", sans-serif;
+  color: #000;
+}
+
+.table-98 tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 .row-98:hover {
@@ -306,6 +444,10 @@
 }
 
 .row-98.playing {
+  background: #fff8dc;
+}
+
+.row-98.playing:nth-child(even) {
   background: #fff8dc;
 }
 
@@ -317,6 +459,7 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 6px;
+  flex-shrink: 0;
 }
 
 .dot.green {
@@ -331,32 +474,88 @@
   background: #d11;
 }
 
-/* Status bar styling */
+/* Bottom bar container */
 .statusbar-98 {
-  height: 28px;
   background: var(--face);
   border-top: 1px solid var(--dark);
-  display: grid;
-  grid-template-columns: 220px 1fr auto auto;
-  align-items: center;
-  gap: 10px;
-  padding: 0 8px;
+  padding: 0;
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
+/* Recessed progress groove */
 .status-groove {
-  height: 16px;
+  height: 16px;                    /* matches screenshot */
   background: var(--face);
   border: 1px solid var(--shadow);
-  box-shadow: inset 1px 1px 0 var(--light), inset -1px -1px 0 var(--dark);
+  box-shadow:
+    inset 1px 1px 0 var(--light), /* highlight TL */
+    inset -1px -1px 0 var(--dark);/* shadow BR  */
 }
 
-.bottom-btn {
-  width: 180px;
-  height: 24px;
+/* Shared Win98 button */
+.win98-btn {
   background: var(--face);
-  border: 1px solid var(--light);
-  box-shadow: inset -1px -1px 0 var(--dark), inset 1px 1px 0 var(--shadow);
+  border: 1px solid var(--shadow);
+  box-shadow:
+    inset 1px 1px 0 var(--light),
+    inset -1px -1px 0 var(--dark);
   font-size: 12px;
-  font-family: Tahoma, "MS Sans Serif", sans-serif;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 6px;
+}
+
+.win98-btn:active {
+  box-shadow:
+    inset -1px -1px 0 var(--light),
+    inset 1px 1px 0 var(--dark);
+  transform: translate(1px, 1px);
+}
+
+.win98-btn:disabled {
+  color: #808080;
+  text-shadow: 1px 1px 0 #fff;
+  filter: grayscale(100%);
+  box-shadow:
+    inset 1px 1px 0 var(--light),
+    inset -1px -1px 0 var(--dark);
+}
+
+/* Bottom buttons with flex */
+.bottom-btn {
+  @apply win98-btn;
+  flex: 1;
+  min-width: 0;
+}
+.bottom-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow:
+    inset  1px  1px 0 var(--dark),
+    inset -1px -1px 0 var(--shadow);
+}
+
+/* Status text styling */
+.status-text {
+  text-align: center;
+  color: #000;
+  background: #9D9D9D;
+  font-size: 12px;
+  line-height: 12px;
+  padding: 4px 8px;
+  margin: 0;
+}
+
+/* Status buttons container */
+.status-buttons {
+  display: flex;
+  gap: 0;
+  justify-content: stretch;
+  width: 100%;
+  margin: 0;
 }

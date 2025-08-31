@@ -1,8 +1,9 @@
 class AudioController {
   private audio: HTMLAudioElement | null = null;
   private currentUrl: string | null = null;
+  private onEndedCallback: (() => void) | null = null;
 
-  play(url: string): Promise<void> {
+  play(url: string, onEnded?: () => void): Promise<void> {
     return new Promise((resolve, reject) => {
       // Stop any currently playing audio
       this.stop();
@@ -10,9 +11,16 @@ class AudioController {
       // Create new audio element
       this.audio = new Audio(url);
       this.currentUrl = url;
+      this.onEndedCallback = onEnded || null;
 
       this.audio.addEventListener('canplaythrough', () => {
         this.audio?.play().then(resolve).catch(reject);
+      });
+
+      this.audio.addEventListener('ended', () => {
+        if (this.onEndedCallback) {
+          this.onEndedCallback();
+        }
       });
 
       this.audio.addEventListener('error', (e) => {

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   title: 'Napstify v2.0 BETA 6',
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-win98 h-screen overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#c0c0c0' }}>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

@@ -11,7 +11,6 @@ export default function Toolbar98() {
       <button className="toolbar-btn"><IconTransfer/><span>Transfer</span></button>
       <button className="toolbar-btn"><IconHelp/><span>Help</span></button>
       <div className="toolbar-spacer" />
-      <button className="toolbar-btn" title="Premium sign-in (placeholder)"><IconSignin/><span>Sign in</span></button>
     </div>
   );
 }
