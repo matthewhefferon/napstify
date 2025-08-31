@@ -7,9 +7,9 @@ interface Win98WindowProps {
 
 export default function Win98Window({ children, title = "Napstify v2.0 BETA 6" }: Win98WindowProps) {
   return (
-    <div className="win98-window w-full h-full">
+    <div className="win98-window">
       {/* Title Bar */}
-      <div className="win98-titlebar flex justify-between items-center">
+      <div className="win98-titlebar">
         <span>{title}</span>
         <div className="win98-controls">
           <div className="win98-control min" />
@@ -19,7 +19,7 @@ export default function Win98Window({ children, title = "Napstify v2.0 BETA 6" }
       </div>
       
       {/* Window Content */}
-      <div className="content-pad flex-1 flex flex-col">
+      <div className="p-1.5 flex-1 flex flex-col">
         {children}
       </div>
     </div>
