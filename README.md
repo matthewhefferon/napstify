@@ -3,7 +3,6 @@
 A nostalgic Napster-style interface that lets you search for artists and play songs via the Spotify API.
 
 
-
 ## 🎵 Inspiration
 
 This project recreates the nostalgic interface of the original Napster v2.0 client, bringing back the classic Windows 98 aesthetic while providing modern Spotify integration.
@@ -59,7 +58,7 @@ This project recreates the nostalgic interface of the original Napster v2.0 clie
    ```env
    SPOTIFY_CLIENT_ID=your_spotify_client_id
    SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
-   
+
    NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your_nextauth_secret
    ```
@@ -154,4 +153,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-Made with ❤️ for all the people who installed viruses on their parents computers.
+Made with ❤️ for all the people who installed viruses on their parents computer.
