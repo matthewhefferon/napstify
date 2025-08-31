@@ -47,51 +47,40 @@ function generateFakeData(trackId: string) {
 }
 
 function formatDuration(ms: number): string {
-  const seconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  const minutes = Math.floor((ms || 180000) / 60000);
+  const seconds = Math.round(((ms || 180000) % 60000) / 1000);
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
 function formatFilesize(bytes: number): string {
-  return bytes.toLocaleString();
+  const size = Math.max(2_100_000, bytes);
+  return size.toLocaleString();
 }
 
 export default function ResultsTable({ tracks, nowPlayingId, onPlay, onPause, emptyMessage }: ResultsTableProps) {
   return (
-    <div 
-      className={`results-box ${tracks.length > 0 ? 'results-box-scrollable' : ''}`} 
-      style={{ 
-        height: '402px', 
-        background: '#fff', 
-        border: '1px solid var(--dark)', 
-        position: 'relative',
-        overflowY: 'scroll',
-        scrollbarWidth: '16px',
-        scrollbarColor: '#d4d0c8 #d4d0c8'
-      }}
-    >
-      <table className="table-98">
+    <div className="win98-scrollbar bg-white border border-black relative overflow-y-auto overflow-x-auto h-full max-h-[calc(100vh-300px)]">
+      <table className="w-full border-collapse table-fixed max-w-full overflow-hidden">
         <colgroup>
-          <col style={{ width: '45%' }} />
-          <col style={{ width: '8%' }} />
-          <col style={{ width: '6%' }} />
-          <col style={{ width: '6%' }} />
-          <col style={{ width: '7%' }} />
-          <col style={{ width: '10%' }} />
-          <col style={{ width: '8%' }} />
-          <col style={{ width: '10%' }} />
+          <col style={{ minWidth: '280px', width: '35%' }} />
+          <col style={{ minWidth: '70px', width: '10%' }} />
+          <col style={{ minWidth: '50px', width: '8%' }} />
+          <col style={{ minWidth: '50px', width: '8%' }} />
+          <col style={{ minWidth: '50px', width: '8%' }} />
+          <col style={{ minWidth: '100px', width: '12%' }} />
+          <col style={{ minWidth: '80px', width: '10%' }} />
+          <col style={{ minWidth: '50px', width: '9%' }} />
         </colgroup>
         <thead>
           <tr>
-            <th>Filename</th>
-            <th>Filesize</th>
-            <th>Bitrate</th>
-            <th>Freq</th>
-            <th>Length</th>
-            <th>User</th>
-            <th>Connection</th>
-            <th>Ping</th>
+            <th className="win98-table-header">Filename</th>
+            <th className="win98-table-header-center">Filesize</th>
+            <th className="win98-table-header-center">Bitrate</th>
+            <th className="win98-table-header-center">Freq</th>
+            <th className="win98-table-header-center">Length</th>
+            <th className="win98-table-header-center">User</th>
+            <th className="win98-table-header-center">Connection</th>
+            <th className="win98-table-header-center">Ping</th>
           </tr>
         </thead>
         <tbody>
@@ -110,49 +99,47 @@ export default function ResultsTable({ tracks, nowPlayingId, onPlay, onPause, em
               return (
                 <tr
                   key={track.id}
-                  className={`row-98 cursor-pointer ${
+                  className={`win98-table-row cursor-pointer ${
                     isPlaying ? 'playing' : ''
                   }`}
                   onClick={() => {
-                    console.log('Track clicked:', track.name, 'Preview URL:', track.preview_url);
                     const trackUri = `spotify:track:${track.id}`;
                     onPlay(track.id, track.preview_url || '', trackUri);
                   }}
                   title={track.preview_url ? 'Click to play preview' : 'Click to play full track (requires Spotify login)'}
-                  style={{ cursor: 'pointer' }}
                 >
-                                  <td>
-                  <div className="flex items-center min-w-0">
-                    <div 
-                      className={`dot ${
-                        fakeData.status === 'green' ? 'green' : 
-                        fakeData.status === 'yellow' ? 'yellow' : 'red'
-                      }`}
-                    />
-                    <span className={`truncate ${isPlaying ? 'font-bold' : ''}`}>
-                      {isPlaying ? (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onPause?.();
-                          }}
-                          className="inline-flex items-center justify-center w-4 h-4 mr-1 bg-gray-300 border border-gray-600 text-xs hover:bg-gray-400"
-                          title="Pause"
-                        >
-                          ⏸
-                        </button>
-                      ) : null}
-                      Music\\{track.artists[0]?.name || 'Unknown'} - {track.name}.mp3
-                    </span>
-                  </div>
-                </td>
-                  <td>{formatFilesize(fakeData.filesize)}</td>
-                  <td>{fakeData.bitrate}</td>
-                  <td>{fakeData.freq}</td>
-                  <td>{formatDuration(track.duration_ms)}</td>
-                  <td>{fakeData.user}</td>
-                  <td>{fakeData.connection}</td>
-                  <td>{fakeData.ping}</td>
+                  <td>
+                    <div className="flex items-center min-w-0">
+                      <div 
+                        className={`dot ${
+                          fakeData.status === 'green' ? 'green' : 
+                          fakeData.status === 'yellow' ? 'yellow' : 'red'
+                        }`}
+                      />
+                      <span className={`truncate ${isPlaying ? 'font-bold' : ''}`}>
+                        {isPlaying ? (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onPause?.();
+                            }}
+                            className="inline-flex items-center justify-center w-4 h-4 mr-1 bg-gray-300 border border-gray-600 text-xs hover:bg-gray-400"
+                            title="Pause"
+                          >
+                            ⏸
+                          </button>
+                        ) : null}
+                        Music\\{track.artists[0]?.name || 'Unknown'} - {track.name}.mp3
+                      </span>
+                    </div>
+                  </td>
+                  <td className="win98-table-cell-center">{formatFilesize(fakeData.filesize)}</td>
+                  <td className="win98-table-cell-center">{fakeData.bitrate}</td>
+                  <td className="win98-table-cell-center">{fakeData.freq}</td>
+                  <td className="win98-table-cell-center">{formatDuration(track.duration_ms)}</td>
+                  <td className="win98-table-cell-center">{fakeData.user}</td>
+                  <td className="win98-table-cell-center">{fakeData.connection}</td>
+                  <td className="win98-table-cell-center">{fakeData.ping}</td>
                 </tr>
               );
             })
