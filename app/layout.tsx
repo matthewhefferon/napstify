@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-win98 h-screen overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#c0c0c0' }}>
+      <body className="font-win98 h-screen w-screen overflow-hidden" style={{ backgroundColor: '#c0c0c0', margin: 0, padding: 0 }}>
         <Providers>
           {children}
         </Providers>
